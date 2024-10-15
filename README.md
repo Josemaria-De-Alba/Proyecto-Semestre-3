@@ -13,10 +13,15 @@ Para almacenar datos se utilizan los siguientes metodos con sus respectivas func
 
 Lista Doblemente Encadenada:
 Funcion Acceso: Best: O(n) Worst: O(n) se utiliza para encontrar valores espesificos que se han guardado dentro de la lista
+
 Funcion Insercion: Best: O(1) Worst: O(1) se utiliza para guardar valores nuevos dentro de la lista
+
 Funcion Busqueda: Best: O(n) Worst: O(n) se utiliza para encontrar la posicion de un valor espesificado
+
 Funcion Actualizar: Best: O(n) Worst: O(n) se utiliza para cambiar el valor de algo en una posicion espesificada
+
 Funcion Borrar: Best: O(n) Worst: O(n) funcion para borrar un dato en una posicion espesifica
+
 Funciones Imprimir: O(n) Worst: O(n) imprime todos los valores dentro de la lista
 
 Arbol Binario:
