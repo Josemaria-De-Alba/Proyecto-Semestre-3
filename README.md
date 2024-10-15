@@ -30,3 +30,5 @@ Funcion Sort(Bubble): Best: O(n) Worst: O(n^2) organiza los valores dentro de la
 Funcion Agregar: Best: O(log(n)) Worst: O(n) agrea un valor a el arbol mientras lo ordena al mismo tiempo
 
 Funciones Imprimir: Best: O(n) Worst: O(n) imprime todos los valores dentro de la lista
+
+Funciones Localizar: Best: O(log(n)) Worst: O(n) permite encontrar el nivel donde se encuentra un valor espesificado
