@@ -12,7 +12,6 @@ Cambie para utilizar listas doblemente encadenadas y binary trees para guardar l
 Para almacenar datos se utilizan los siguientes metodos con sus respectivas funciones y complejidades:
 
 -Lista Doblemente Encadenada:
-Funcion Acceso: Best: O(n) Worst: O(n) se utiliza para encontrar valores espesificos que se han guardado dentro de la lista
 
 Funcion Insercion: Best: O(1) Worst: O(1) se utiliza para guardar valores nuevos dentro de la lista
 
@@ -22,8 +21,12 @@ Funcion Actualizar: Best: O(n) Worst: O(n) se utiliza para cambiar el valor de a
 
 Funcion Borrar: Best: O(n) Worst: O(n) funcion para borrar un dato en una posicion espesifica
 
-Funciones Imprimir: O(n) Worst: O(n) imprime todos los valores dentro de la lista
+Funciones Imprimir: Best: O(n) Worst: O(n) imprime todos los valores dentro de la lista
+
+Funcion Sort(Bubble): Best: O(n) Worst: O(n^2) organiza los valores dentro de la lista despues de pasarlos a un vector
 
 -Arbol Binario:
 
+Funcion Agregar: Best: O(log(n)) Worst: O(n) agrea un valor a el arbol mientras lo ordena al mismo tiempo
 
+Funciones Imprimir: Best: O(n) Worst: O(n) imprime todos los valores dentro de la lista
