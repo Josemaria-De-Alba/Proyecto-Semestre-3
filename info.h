@@ -1,298 +1,97 @@
 #ifndef INFO_H_
 #define INFO_H_
 
-#include <iostream>
-#include <sstream>
-#include <cstring>
 #include <string>
-#include <vector>
+#include <sstream>
+#include <iostream>
 
 using namespace std;
 
-template <class T> class DList;
-
-template <class T>
-class Info {
-private:
-  Info(T);
-  Info(T, Info<T>*);
-  Info(const Info<T>&);
-
-  T	    data;
-  Info<T> *next;
-  Info<T> *prev;
-
-  friend class DList<T>;
+struct character_info{
+ int percent;
+ string name;
 };
 
-template <class T>
-Info<T>::Info(T dat) :data(dat), next(0), prev(0){}
+template <class T> class AVL;
 
 template <class T>
-Info<T>::Info(T dat, Info* nxt): data(dat), next(next),prev(prev) {}
-
-template <class T>
-Info<T>::Info(const Info<T> &source):data(source.data), next(source.next),prev(source.previous) {}
-
-template <class T>
-class DList{
-  private:
-    Info <T> *head;
-    Info <T> *tail;
-    int size;
-  public:
-    std::string toString() const;
-    DList();
-    T insertion(T dat);
-    T search(T dat);
-    void update(T pos, T newdat);
-    T deleteAt(int pos);
-    std::string toStringForward();
-    std::string toStringBackward();
-    std::vector<T> sort(vector<T> &vinfo);
-    std::vector<T> toVector();
-};
-
-template <class T>
-DList<T>::DList():head(NULL),tail(NULL),size(0){}
-
-template <class T>
-T DList <T>::insertion(T dat){
-
-  Info<T> *newInfo = new Info<T>(dat);
-  if (tail == NULL){
-    head = newInfo;
-    tail = newInfo;
-  }
-  else {
-    tail -> next = newInfo;
-    newInfo -> prev = tail;
-    tail = newInfo;
-  }
-  size++;
-  return dat;
-}
-
-template <class T>
-T DList <T>::search(T dat){
-  Info<T> *p;
-  p = head;
-  int cont = 0;
-  while (p != 0){
-    if(p -> data == dat){
-      return cont;
-    }
-    cont++;
-    p = p -> next;
-  }
-  return -1;
-}
-
-template <class T>
-void DList <T>::update(T pos, T newdat){
-  Info<T> *p;
-  p = head;
-  int cont = 0;
-  while (cont != pos){
-    p = p -> next;
-    cont ++;
-  }
-  p -> data = newdat;
-}
-
-template <class T>
-T DList <T>::deleteAt(int pos){
-
-  Info<T> *p, *q;
-  p = head;
-  q = NULL;
-  T remove;
-  int i = 0;
-  if(pos == 0){
-    remove = head -> data;
-    p = head;
-    head = head -> next;
-    if(head != NULL){
-      head -> prev = NULL;
-    }
-    else{
-      tail = NULL;
-    }
-    delete p;
-    size--;
-    return remove;
-  }
-  while(p != NULL && i < pos){
-    q = p;
-    p = p -> next;
-    i++;
-  }
-  remove = p -> data;
-  q -> next = p -> next;
-  if (p -> next != NULL){
-    p -> next -> prev = q;
-  }
-  else{
-    tail = q;
-  }
-  delete p;
-  size--;
-  return remove;
-
-}
-
-template <class T>
-std::string DList<T>::toString() const {
-  std::stringstream aux;
-  Info<T> *p;
-
-  p = head;
-  aux << "[";
-  while (p != 0) {
-    aux << p->data;
-    if (p->next != 0) {
-      aux << ", ";
-    }
-    p = p->next;
-  }
-  aux << "]";
-  return aux.str();
-}
-
-template <class T>
-std::string DList<T>::toStringForward(){
-  std::stringstream aux;
-  Info<T> *p;
-
-  p = head;
-  aux << "[";
-  while (p != 0) {
-    aux << p->data;
-    if (p->next != 0) {
-      aux << ", ";
-    }
-    p = p->next;
-  }
-  aux << "]";
-  return aux.str();
-}
-
-template <class T>
-std::string DList<T>::toStringBackward(){
-  std::stringstream aux;
-  Info<T> *p = tail;
-  aux << "[";
-
-  while (p != 0) {
-    aux << p -> data;
-    if (p -> prev!= 0) {
-      aux << ", ";
-    }
-    p = p -> prev;
-  }
-
-  aux << "]";
-  return aux.str();
-}
-
-
-template <class T>
-std::vector<T> DList<T>::toVector(){
-  std::vector<T> vec_info;
-  Info<T> *current = head;
-
-  while(current!= NULL){
-    vec_info.push_back(current->data);
-    current = current -> next;
-  }
-  return vec_info;
-}
-
-template <class T>
-void swap(vector<T> &v, int i, int j){
-    T aux = v[i];
-    v[i] = v[j];
-    v[j] = aux;
-}
-
-template <class T>
-std::vector<T> DList<T>::sort(vector<T> &vinfo){
-  for(int i = vinfo.size() - 1; i > 0; i--){
-    for(int j = 0; j < i; j++){
-      if(vinfo[j] > vinfo[j+1]){
-        swap(vinfo,j,j+1);
-      }
-    }
-  }
-  return vinfo;
-}
-
-//Binary Tree
-template <class T> class BSTInfo;
-
-template <class T>
-class TreeNode {
+class Node{
 private:
-  T data;
-  TreeNode *left, *right;
-
-  TreeNode<T>* succesor();
+  Node *left, *right;
+  int level, balance;
+  Node<T>* predecesor();
+  character_info data;
 
 public:
-  TreeNode(T);
-  TreeNode(T, TreeNode<T>*, TreeNode<T>*);
-  void add(T);
-  bool find(T);
+  Node(int pe, string na){
+    data.percent = pe;
+    data.name = na;
+    left = 0;
+    right = 0;
+    level = 0; 
+    balance = 0;
+  };
 
-  int counter = 1;
+  Node(int pe, string na, Node<T> *le, Node<T> *ri, int lev, int bal){
+    data.percent = pe;
+    data.name = na;
+    left = le;
+    right = ri;
+    level = lev; 
+    balance = bal;
+  }
 
+  void add(int, string);
+  bool find(int);
+  void remove(int);
+  void removeChilds();
   void inorder(std::stringstream&) const;
-  void preorder(std::stringstream&) const;
-  void postorder(std::stringstream&) const;
+  int max_depth();
+  Node<T>* check_tree(T*, Node<T>*, bool*);
+  Node<T>* balance_tree();
+  Node<T>* rot_left(Node<T>* );
+  Node<T>* rot_right(Node<T>* );
+  Node<T>* rot_left_right(Node<T>* );
+  Node<T>* rot_right_left(Node<T>* );
+  void smallest(std::stringstream &aux);
+  void biggest(std::stringstream &aux);
 
-  int getLevel(T dat, int level);
-
-  friend class BSTInfo<T>;
+  friend class AVL<T>;
 };
 
 template <class T>
-TreeNode<T>::TreeNode(T dat) : data(dat), left(0), right(0) {}
-
-template <class T>
-TreeNode<T>::TreeNode(T dat, TreeNode<T> *le, TreeNode<T> *ri) : data(dat), left(le), right(ri) {}
-
-template <class T>
-void TreeNode<T>::add(T dat) {
-  if (dat < data){
-    if(left != 0){
-      left -> add(dat);
-    }else{
-      left = new TreeNode<T>(dat);
+void Node<T>::add(int per, string na) {
+  if (per < data.percent) {
+    if (left != 0) {
+      left->add(per, na);
+    } else {
+      left = new Node<T>(per, na);
     }
-  } else{
-    if(right != 0){
-      right -> add(dat);
-    } else{
-      right = new TreeNode<T>(dat);
+  } else {
+    if (right != 0) {
+      right->add(per, na);
+    } else {
+      right = new Node<T>(per, na);
     }
   }
 }
 
 template <class T>
-bool TreeNode<T>::find(T dat) {
-  if (dat == data){
+bool Node<T>::find(int per) {
+  if (per == data.percent) {
     return true;
-  } else if (dat < data) {
-    return (left != 0 && left->find(dat));
-  } else if (dat > data) {
-    return (right != 0 && right->find(dat));
+  } else if (per < data.percent) {
+    return (left != 0 && left->find(per));
+  } else if (per > data.percent) {
+    return (right != 0 && right->find(per));
   }
-  return false;
-} 
+  return 0;
+}
 
 template <class T>
-TreeNode<T>* TreeNode<T>::succesor() {
-  TreeNode<T> *le, *ri, *parent, *child;
+Node<T>* Node<T>::predecesor() {
+  Node<T> *le, *ri;
+
   le = left;
   ri = right;
 
@@ -309,6 +108,7 @@ TreeNode<T>* TreeNode<T>::succesor() {
     return le;
   }
 
+  Node<T> *parent, *child;
   parent = left;
   child = left->right;
   while (child->right != 0) {
@@ -321,163 +121,334 @@ TreeNode<T>* TreeNode<T>::succesor() {
 }
 
 template <class T>
-void TreeNode<T>::inorder(std::stringstream &aux) const {
+void Node<T>::remove(int per) {
+  Node<T> * succ, *old;
+
+  if (per < data.percent) {
+    if (left != 0) {
+      if (left->data.percent == per) {
+        old = left;
+        succ = left->predecesor();
+        if (succ != 0) {
+          succ->left = old->left;
+          succ->right = old->right;
+        }
+        left = succ;
+        delete old;
+      } else {
+        left->remove(per);
+      }
+    }
+  } else if (per > data.percent) {
+    if (right != 0) {
+      if (right->data.percent == per) {
+        old = right;
+        succ = right->predecesor();
+        if (succ != 0) {
+          succ->left = old->left;
+          succ->right = old->right;
+        }
+        right = succ;
+        delete old;
+      } else {
+        right->remove(per);
+      }
+    }
+  }
+}
+
+template <class T>
+void Node<T>::removeChilds() {
+  if (left != 0) {
+    left->removeChilds();
+    delete left;
+    left = 0;
+  }
+  if (right != 0) {
+    right->removeChilds();
+    delete right;
+    right = 0;
+  }
+}
+
+template <class T>
+void Node<T>::inorder(std::stringstream &aux) const {
   if (left != 0) {
     left->inorder(aux);
   }
   if (aux.tellp() != 1) {
-    aux << ", " ;
+    aux << " " << endl;
   }
-  aux << data;
+  aux << "Character name: " << data.name << endl << "Character use rate (in%): " << data.percent;
   if (right != 0) {
     right->inorder(aux);
   }
 }
 
+
 template <class T>
-void TreeNode<T>::preorder(std::stringstream &aux) const {
-  aux << data;
+int Node<T>::max_depth() {
+  int le =0 , ri = 0;
+  if (left != 0)
+    le = left->max_depth() + 1;
+  if (right != 0)
+    ri = right->max_depth() + 1;
+  if(le > ri)
+    level = le;
+  else
+    level = ri;
+  balance = le - ri;
+  return level;
+}
+
+template <class T>
+Node<T>* Node<T>::check_tree(T *check_val, Node<T> *parent, bool *checked) {
+ 
+  Node<T>*le = 0, *ri = 0, *a = 0;
+  if (left != 0)
+    le = left->check_tree(check_val,this,checked);
+  if (right != 0)
+    ri = right->check_tree(check_val,this,checked);
+  if (*checked == false){
+    if (balance > 1){
+      a = balance_tree();
+      *check_val = data.percent;
+      *checked = true;
+      if(parent != 0){
+        cout<< "parent  " << parent->data.percent <<" parent->left "<< parent->left->data.percent<< endl;
+        parent->left = a;
+      }
+    }else if (balance < -1){
+      a = balance_tree();
+      *check_val = data.percent;
+      *checked = true;
+      if(parent != 0){
+        cout<< "parent  " << parent->data.percent <<" parent->right "<< parent->right->data.percent<< endl;
+        parent->right = a;
+      }
+    }
+  }
+  return a;
+}
+
+template <class T>
+Node<T>* Node<T>::balance_tree() {
+  Node<T> *a = this, *le =left, *ri =right;
+  cout<< "Balancing node : " << a->data.percent << " " << endl;
+  if (balance > 0) {
+    if (le->balance > 0){
+      cout<< "rot_right  " << a->balance << " left: " << le->balance << endl;
+      a = rot_right(a);
+    }else{
+      cout<< "rot_left_right " << a->balance << " left: " << le->balance << endl;
+      a = rot_left_right(a);
+    }
+  }else{
+    if (ri->balance < 0){
+      cout<< "rot_left " << a->balance << " right: " << ri->balance << endl;
+      a = rot_left(a);
+    }else{
+      cout<< "rot_right_left " << a->balance << " right: " << ri->balance << endl;
+      a = rot_right_left(a);
+    }
+  }
+  cout<< "New current node value is " << a->data.percent << endl;
+  return a;
+}
+
+template <class T>
+Node<T>* Node<T>::rot_left(Node<T>* a){
+  Node<T> *b, *temp = 0;
+  b = 0;
+  if (a->right != 0){
+    b = a->right;
+    if (b->left != 0)
+      temp = b->left;
+    b->left = a;
+    if(temp != 0){
+      a->right = temp;
+    }else{
+      a->right = 0;
+    }
+  }
+  return b;
+}
+
+template <class T>
+Node<T>* Node<T>::rot_right(Node<T>* a){
+  Node<T> *b, *temp = 0;
+  b = 0;
+  if (a->left != 0){
+    b = a->left;
+    if (b->right != 0)
+      temp = b->right;
+    b->right = a;
+    if(temp != 0){
+      a->left = temp;
+    }else{
+      a->left = 0;
+    }
+  }
+  return b;
+}
+
+template <class T>
+Node<T>* Node<T>::rot_left_right(Node<T>* a){
+  a->left = rot_left(a->left);
+  a = rot_right(a);
+  return a;
+}
+
+template <class T>
+Node<T>*  Node<T>::rot_right_left(Node<T>* a){
+  a->right = rot_right(a->right);
+  a = rot_left(a);
+  return a;
+}
+
+template <class T>
+void Node<T>::smallest(std::stringstream &aux){
   if (left != 0) {
-    aux << ", ";
-    left->preorder(aux);
+    left->smallest(aux);
   }
+  if (left == 0){
+    cout << "The smallest number is " << data.percent << endl;
+    cout << "This belongs to: " << data.name << endl;
+  }
+}
+
+template <class T>
+void Node<T>::biggest(std::stringstream &aux){
   if (right != 0) {
-    aux << ", ";
-    right->preorder(aux);
+    right -> biggest(aux);
+  }
+  if (right == 0){
+    cout << "The biggest number is " << data.percent << endl;
+    cout << "This belongs to: " << data.name << endl;
   }
 }
 
 template <class T>
-void TreeNode<T>::postorder(std::stringstream &aux) const {
-  if (left != 0) {
-    left->postorder(aux);
-  }
-  if (right != 0) {
-    right->postorder(aux);
-  }
-  if (aux.tellp() != 1) {
-    aux << ", ";
-  }
-  aux << data;
-}
+class AVL {
+private:
+  Node<T> *root;
 
-template <class T>
-int TreeNode<T>::getLevel(T dat, int level){
-  if (data == dat) {
-            return level;
-        }
-        if (dat < data && left != 0) {
-            return left->getLevel(dat, level + 1);
-        }
-        if (dat > data && right != 0) {
-            return right->getLevel(dat, level + 1);
-        }
-        return 0;
-}
-
-template <class T>
-class BSTInfo{
-    private:
-  TreeNode<T> *root;
-  
-
-    public:
-    BSTInfo();
-    T add(T dat);
-    T height();
-    bool empty() const;
-
+public:
+  AVL();
+  ~AVL();
+  bool empty() const;
+  void add(int, string);
+  bool find(int) const;
+  void remove(int);
+  void removeAll();
   std::string inorder() const;
-  std::string preorder() const;
-  std::string postorder() const;
+  void smallest();
+  void biggest();
 };
 
 template <class T>
-BSTInfo<T>::BSTInfo() : root(0) {}
+AVL<T>::AVL() : root(0) {}
 
 template <class T>
-bool BSTInfo<T>::empty() const {
+AVL<T>::~AVL() {
+  removeAll();
+}
+
+template <class T>
+bool AVL<T>::empty() const {
   return (root == 0);
 }
 
-template <class T>
-T BSTInfo<T>::add(T dat){
-  if(root != 0){
-    if (!root -> find(dat)){
-      root -> add(dat);
+template<class T>
+void AVL<T>::add(int per, string na) {
+  if (root != 0) {
+    if (!root->find(per)) {
+      Node <T> *temp;
+      T check_val = false;
+      bool aux = false;
+      root->add(per, na);
+      root->max_depth();
+      temp = root->check_tree(&check_val, 0, &aux);
+      if (check_val == root->data.percent){
+        root = temp;
+      }
+      root->max_depth();
     }
-  }else{
-    root = new TreeNode<T>(dat);
+  } else {
+    root = new Node<T>(per, na);
   }
-  return dat;
 }
 
 template <class T>
-T BSTInfo<T>::height(){
-  if (root == NULL) {
-      return 0;
-  }
-
-  TreeNode<T>* current = root; 
-    int maxHeight = 0, currentHeight = 0;
-
-  while (current != NULL) {
-        if (current->left == NULL) {
-            currentHeight++; 
-            if (currentHeight > maxHeight) {
-                maxHeight = currentHeight;
-            }
-            current = current->right; 
-        } else {
-            TreeNode<T>* pre = current->left;
-            while (pre->right != NULL && pre->right != current) {
-                pre = pre->right;
-            }
-            if (pre->right == NULL) {
-                pre->right = current;
-                currentHeight++; 
-                current = current->left; 
-            } else {
-                pre->right = NULL;
-                current = current->right; 
-                currentHeight--;
-            }
-        }
+void AVL<T>::remove(int per) {
+  if (root != 0) {
+    if (per == root->data.percent) {
+      Node<T> *succ = root->predecesor();
+      if (succ != 0) {
+        succ->left = root->left;
+        succ->right = root->right;
+      }
+      delete root;
+      root = succ;
+    } else {
+      root->remove(per);
     }
-    return maxHeight;
+    root->max_depth();
+    Node <T> *temp;
+    T check_val = false;
+    bool aux = false;
+    temp = root->check_tree(&check_val, 0, &aux);
+    if (check_val == root->data.percent){
+      root = temp;
+    }
+    root->max_depth();
+  }
 }
 
 template <class T>
-std::string BSTInfo<T>::inorder() const {
+void AVL<T>::removeAll() {
+  if (root != 0) {
+    root->removeChilds();
+  }
+  delete root;
+  root = 0;
+}
+
+template <class T>
+bool AVL<T>::find(int per) const {
+  if (root != 0) {
+    return root->find(per);
+  } else {
+    return false;
+  }
+}
+
+template <class T>
+std::string AVL<T>::inorder() const {
   std::stringstream aux;
-  aux << "Data Start: ";
+
+  aux << "";
   if (!empty()) {
     root->inorder(aux);
   }
-  aux << ".";
+  aux << "" << endl;
   return aux.str();
 }
 
-template <class T>
-std::string BSTInfo<T>::preorder() const {
+template<class T>
+void AVL<T>::smallest(){
   std::stringstream aux;
-  aux << "Data Start: ";
-  if (!empty()) {
-    root->preorder(aux);
+  if(!empty()){
+    root -> smallest(aux);
   }
-  aux << ".";
-  return aux.str();
 }
 
-template <class T>
-std::string BSTInfo<T>::postorder() const {
+template<class T>
+void AVL<T>::biggest(){
   std::stringstream aux;
-  aux << "Data Start: ";
-  if (!empty()) {
-    root->postorder(aux);
+  if(!empty()){
+    root -> biggest(aux);
   }
-  aux << ".";
-  return aux.str();
 }
 
 #endif
