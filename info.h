@@ -4,11 +4,12 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
 struct character_info{
- int percent;
+ float percent;
  string name;
 };
 
@@ -23,7 +24,7 @@ private:
   character_info data;
 
 public:
-  Node(int pe, string na){
+  Node(float pe, string na){
     data.percent = pe;
     data.name = na;
     left = 0;
@@ -32,7 +33,7 @@ public:
     balance = 0;
   };
 
-  Node(int pe, string na, Node<T> *le, Node<T> *ri, int lev, int bal){
+  Node(float pe, string na, Node<T> *le, Node<T> *ri, int lev, int bal){
     data.percent = pe;
     data.name = na;
     left = le;
@@ -41,9 +42,9 @@ public:
     balance = bal;
   }
 
-  void add(int, string);
-  bool find(int);
-  void remove(int);
+  void add(float, string);
+  bool find(float);
+  void remove(float);
   void removeChilds();
   void inorder(std::stringstream&) const;
   int max_depth();
@@ -55,12 +56,13 @@ public:
   Node<T>* rot_right_left(Node<T>* );
   void smallest(std::stringstream &aux);
   void biggest(std::stringstream &aux);
+  void save_data(std::stringstream &aux, ofstream &saving);
 
   friend class AVL<T>;
 };
 
 template <class T>
-void Node<T>::add(int per, string na) {
+void Node<T>::add(float per, string na) {
   if (per < data.percent) {
     if (left != 0) {
       left->add(per, na);
@@ -77,7 +79,7 @@ void Node<T>::add(int per, string na) {
 }
 
 template <class T>
-bool Node<T>::find(int per) {
+bool Node<T>::find(float per) {
   if (per == data.percent) {
     return true;
   } else if (per < data.percent) {
@@ -121,7 +123,7 @@ Node<T>* Node<T>::predecesor() {
 }
 
 template <class T>
-void Node<T>::remove(int per) {
+void Node<T>::remove(float per) {
   Node<T> * succ, *old;
 
   if (per < data.percent) {
@@ -234,25 +236,19 @@ Node<T>* Node<T>::check_tree(T *check_val, Node<T> *parent, bool *checked) {
 template <class T>
 Node<T>* Node<T>::balance_tree() {
   Node<T> *a = this, *le =left, *ri =right;
-  cout<< "Balancing node : " << a->data.percent << " " << endl;
   if (balance > 0) {
     if (le->balance > 0){
-      cout<< "rot_right  " << a->balance << " left: " << le->balance << endl;
       a = rot_right(a);
     }else{
-      cout<< "rot_left_right " << a->balance << " left: " << le->balance << endl;
       a = rot_left_right(a);
     }
   }else{
     if (ri->balance < 0){
-      cout<< "rot_left " << a->balance << " right: " << ri->balance << endl;
       a = rot_left(a);
     }else{
-      cout<< "rot_right_left " << a->balance << " right: " << ri->balance << endl;
       a = rot_right_left(a);
     }
   }
-  cout<< "New current node value is " << a->data.percent << endl;
   return a;
 }
 
@@ -328,6 +324,21 @@ void Node<T>::biggest(std::stringstream &aux){
   }
 }
 
+template<class T>
+void Node<T>::save_data(std::stringstream &aux, ofstream &saving){
+  if (left != 0) {
+    left->save_data(aux, saving);
+  }
+  if (aux.tellp() != 1) {
+    saving << data.percent << ", ";
+    saving << data.name << endl;
+    aux << " " << endl;
+  }
+  if (right != 0) {
+    right->save_data(aux, saving);
+  }
+}
+
 template <class T>
 class AVL {
 private:
@@ -337,13 +348,14 @@ public:
   AVL();
   ~AVL();
   bool empty() const;
-  void add(int, string);
-  bool find(int) const;
-  void remove(int);
+  void add(float, string);
+  bool find(float) const;
+  void remove(float);
   void removeAll();
   std::string inorder() const;
   void smallest();
   void biggest();
+  void save_data();
 };
 
 template <class T>
@@ -360,7 +372,7 @@ bool AVL<T>::empty() const {
 }
 
 template<class T>
-void AVL<T>::add(int per, string na) {
+void AVL<T>::add(float per, string na) {
   if (root != 0) {
     if (!root->find(per)) {
       Node <T> *temp;
@@ -380,7 +392,7 @@ void AVL<T>::add(int per, string na) {
 }
 
 template <class T>
-void AVL<T>::remove(int per) {
+void AVL<T>::remove(float per) {
   if (root != 0) {
     if (per == root->data.percent) {
       Node<T> *succ = root->predecesor();
@@ -415,7 +427,7 @@ void AVL<T>::removeAll() {
 }
 
 template <class T>
-bool AVL<T>::find(int per) const {
+bool AVL<T>::find(float per) const {
   if (root != 0) {
     return root->find(per);
   } else {
@@ -449,6 +461,17 @@ void AVL<T>::biggest(){
   if(!empty()){
     root -> biggest(aux);
   }
+}
+
+template<class T>
+void AVL<T>::save_data(){
+  std::stringstream aux;
+  ofstream savedata;
+  savedata.open("savedata.txt");
+  if(!empty()){
+    root -> save_data(aux, savedata);
+  }
+  savedata.close();
 }
 
 #endif
