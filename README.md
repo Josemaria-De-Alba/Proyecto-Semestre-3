@@ -9,6 +9,7 @@ Mi código es una manera de organizar datos como en esta página, está diseñad
 Se utiliza un árbol AVL para poder guardar información de manera eficiente y para que los datos se organicen de manera automática, esto ayuda a guardar tiempo y sirve más para este tipo de programa ya que se intenta comparar el uso de personajes/armas y conviene tener las cosas organizadas lo más pronto posible.
 
 **Análisis de Complejidad**
+
 Árbol AVL para personajes/armas y su uso porcentaje de uso:
 
 Función de encontrar nodo: 0(log(n)) Para encontrar el nodo es necesario ir a través de algunos nodos y se localiza dependiendo si el valor buscado es menor o mayor que el nodo actual
