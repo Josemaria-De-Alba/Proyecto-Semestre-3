@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <cstring>
+#include <fstream>
 #include "info.h"
 
 void confirm(bool f){
@@ -27,25 +28,29 @@ void description(){
   cout << "Destiny 2, Call of Duty, etc" << endl << endl;
 }
 
+AVL<float> example(){
+  AVL<float> leg;
+  fstream legends("legends.txt");
+  string line;
+  float percent;
+  string name;
+  if(legends.is_open()){
+    while(getline(legends,line)){
+      percent = stof(line.substr(1, 1));
+      name = line.substr(7, 1);
+      leg.add(percent, name);
+      //Still Testing
+      leg.inorder();
+    }
+    legends.close();
+  }
+  return leg;
+}
+
 int main(){
-  AVL<int> data;
-
-  //TESTING
-  AVL<int> test;
-  test.add(10,"Wraith");
-  std::cout << test.inorder() << std::endl << std::endl;
-  
-  test.add(5, "Seer");
-  test.add(40,"Catalyst");
-  test.add(2,"Fuse");
-  test.add(7, "Crypto");
-  std::cout << test.inorder() << std::endl << std::endl;
-
-  test.remove(10);
-  std::cout << test.inorder() << std::endl << std::endl;
-
-  bool found = test.find(7);
-  confirm(found);
+  AVL<float> data;
+  AVL<float> legends;
+  int done = 0;
 
   int run = 0;
   cout << "Welcome to the character use/win rate maker!" << endl;
@@ -73,7 +78,7 @@ int main(){
         cin >> building;
         if (building == 1){
           string na;
-          int per;
+          float per;
           cout << "Please give us the character/item name: " << endl;
           cin >> na;
           cout << "Please give us the win/use rate: " << endl;
@@ -81,7 +86,7 @@ int main(){
           data.add(per,na);
         }
         else if (building == 2){
-          int re;
+          float re;
           bool available;
           cout << "Please give us the win/use rate: " << endl;
           cin >> re;
@@ -98,10 +103,22 @@ int main(){
           cout << "Done all data removed! I hope that wasn't a typo Ɛ>" << endl;
         }
         else if (building == 4){
-          cout << "Under Construction" << endl;
+          if (done == 0){
+            legends = example();
+            cout << "Under Construction" << endl;
+            cout << "Reading File" << endl;
+            done = 1;
+            legends.inorder();
+          }
+          else{
+            cout << "Use inorder to read file" << endl;
+            legends.inorder();
+          }
+          
         }
         else if (building == 5){
-          cout << "Under Construction" << endl;
+          data.save_data();
+          cout << "Done! Please Check the savedata.txt file" << endl;
         }
         else if (building == 6){
           cout << data.inorder() << endl;
@@ -123,8 +140,4 @@ int main(){
     }
   }
   cout << "Thank you for using my program!" << endl;
-
-  //TESTING
-  test.smallest();
-  test.biggest();
 }
