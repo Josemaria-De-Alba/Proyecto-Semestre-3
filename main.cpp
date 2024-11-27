@@ -5,16 +5,11 @@
 #include <cstring>
 #include <fstream>
 #include "info.h"
-
-void confirm(bool f){
-  if (f == 1){
-    cout << "The value is there" << endl;
-  }
-  else{
-    cout<< "The value is not there"<< endl;
-  }
-}
-
+/*
+Imprime una descripcion de que hace el programa
+@param
+@return
+*/
 void description(){
   cout << "If you have ever played an competitive online game you know how ";
   cout << "important balance is." << endl;
@@ -33,7 +28,11 @@ void description(){
   cout << " recomendation of what needs a buff or  a nerf" << endl;
   cout << "VERY IMPORTANT! YOU CAN ONLY SAVE DATA TO GO WITH AVL TREES" << endl;
 }
-
+/*
+Lee un archivo de texto para generar un ejemplo del arbol AVL
+@param
+@return
+*/  
 void example(){
   AVL<float> leg;
   fstream legends("legends.txt");
@@ -64,7 +63,7 @@ int main(){
   cout << "Welcome to the character use/win rate maker!" << endl;
   cout << "What would you like to do today?" << endl;
   while(run != 5){
-    cout << "Type 1 for a quick explination of what you can do" << endl;
+    cout << "Type 1 for a quick explanation of what you can do" << endl;
     cout << "Type 2 to organize data in an AVL Tree" << endl;
     cout << "Type 3 to organize data in a vector" << endl;
     cout << "Type 4 to print information" << endl;
@@ -80,7 +79,7 @@ int main(){
         cout << "Type 1 to add a values" << endl;
         cout << "Type 2 to remove a value" << endl;
         cout << "Type 3 to remove all values" << endl;
-        cout << "Type 4 to load Apex Legends example" << endl;
+        cout << "Type 4 to load Apex Legends example with 4 letters" << endl;
         cout << "Type 5 to save values in a text file to go" << endl;
         cout << "Type 6 to print information" << endl;
         cout << "Type 7 to return to the main menu" << endl;
@@ -123,7 +122,7 @@ int main(){
         else if (building == 6){
           cout << data.inorder() << endl;
         }
-        else if(0 >= building or 7 <= building){
+        else if(0 >= building or 8 <= building){
           cout << "Wrong Number. Try Again." << endl;
         }
       }
@@ -137,6 +136,10 @@ int main(){
       data.smallest();
       cout << "This character/weapon might need a nerf: " << endl;
       data.biggest();
+
+      cout << endl << "Here is the data in the vector: " << endl;
+      sort.MergeSort();
+      sort.printArray();
     }
     if(run == 3){
       cout << "Here are the instructions to start organizing data" << endl;
