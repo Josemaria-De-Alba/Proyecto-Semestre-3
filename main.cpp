@@ -34,7 +34,7 @@ void description(){
   cout << "VERY IMPORTANT! YOU CAN ONLY SAVE DATA TO GO WITH AVL TREES" << endl;
 }
 
-AVL<float> example(){
+void example(){
   AVL<float> leg;
   fstream legends("legends.txt");
   string line;
@@ -49,13 +49,11 @@ AVL<float> example(){
     cout << leg.inorder();
     legends.close();
   }
-  return leg;
 }
 
 int main(){
   AVL<float> data;
   AVL<float> legends;
-  int done = 0;
 
 
   Sort<character_info> sort(40, "Carry");
@@ -114,18 +112,9 @@ int main(){
           cout << "Done all data removed! I hope that wasn't a typo Ɛ>" << endl;
         }
         else if (building == 4){
-          if (done == 0){
-            legends = example();
-            cout << "Under Construction" << endl;
             cout << "Reading File" << endl;
-            done = 1;
-            cout << legends.inorder();
-          }
-          else{
-            cout << "Use inorder to read file" << endl;
-            cout << legends.inorder();
-          }
-          
+            example();
+            cout << "Here is the example!" << endl;
         }
         else if (building == 5){
           data.save_data();
