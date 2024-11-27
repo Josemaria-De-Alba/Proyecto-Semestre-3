@@ -38,6 +38,7 @@ Función de encontrar: 0(n) Busca un valor dado por el usuario yendo uno por uno
 Función de eliminar: 0(n) Busca un valor dado por el usuario yendo uno por uno hasta encontrarlo para poder eliminarlo o llegar al final.
 
 **Correcciones**
+
 Agregar nueva clase que contiene un vector que se puede organizar utilizando merge sort. Este vector está organizado en orden alfabético.
 
 Corregir análisis de complejidad y agregar análisis para nueva clase y funciones.
