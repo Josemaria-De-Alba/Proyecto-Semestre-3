@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 using namespace std;
 
@@ -14,6 +15,118 @@ struct character_info{
 };
 
 template <class T> class AVL;
+template <class T> class Node;
+
+template <class T>
+class Sort{
+private:
+  vector<character_info> datos;
+  int size = datos.size();
+public:
+  Sort(float pe, string na){
+    datos.push_back({pe, na});
+    size = datos.size();
+  }
+ 
+  void add(float percent, string name){
+    datos.push_back({percent, name});
+  }
+  void swap(int i, int j){
+    T aux = datos[i];
+    datos[i] = datos[j];
+    datos[j] = aux;
+  }
+
+  vector<character_info> MergeSort() {
+    vector<character_info> tmp(datos.size());
+
+    mergeSplit(datos, tmp, 0, datos.size() - 1);
+    return datos;
+  }
+
+  void mergeSplit(vector<character_info> &A, vector<character_info> &B, int low, int high){
+    int mid;
+  
+    if((high - low < 1)){
+      return;
+    }
+  
+    mid=(high + low)/2;
+    mergeSplit(A, B, low, mid);
+    mergeSplit(A, B, mid + 1, high);
+    mergeArray(A, B, low, mid, high);
+    copyArray(A, B, low, high);
+  }
+
+  void mergeArray(vector<character_info> &A, vector<character_info> &B, int low, int mid, int high){
+  int i, j, k;
+  i = low;
+  j = mid + 1;
+  k = low;
+
+  while (i<=mid && j<=high){
+    if (A[i].name < A[j].name){
+      B[k] = A[i];
+      i++;
+    }
+    else{
+      B[k] = A[j];
+      j++;
+    }
+    k++;
+  }
+  if (i > mid){
+    for(; j <= high; j++){
+      B[k++] = A[j];
+    }
+  }
+  else{
+    for(; i <= mid; i++){
+      B[k++] = A[i];
+    }
+  }
+}
+
+  void copyArray(vector<character_info> &A, vector<character_info> &B, int low, int high){
+  for (int i = low; i <= high; i++) {
+    A[i] = B[i];
+  }
+}
+  void printArray(){
+    for(int i = 0; i < datos.size(); i++){
+      cout << "Name: " << datos[i].name << endl;
+      cout << "Win/Use rate: " << datos[i].percent << endl;
+    }
+  }
+
+  void find(float per){
+    int confirm = 0;
+      for(int i = 0; i < datos.size(); i++){
+        if(datos[i].percent == per){
+          cout << "The number " << per << " can be found in spot";
+          cout << " number " << i << " with the name: ";
+          cout << datos[i].name << endl;
+          confirm = 1;
+        }
+      }
+    if(confirm == 0){
+      cout << "The number could not be found." << endl;
+    }
+  }
+
+  void remove(float per){
+    int confirm = 0;
+      for(int i = 0; i < datos.size(); i++){
+        if(datos[i].percent == per){
+          datos.erase(datos.begin() + i);
+          confirm = 1;
+        }
+      }
+    if(confirm == 0){
+      cout << "The percent could not be found." << endl;
+    }
+  }
+};
 
 template <class T>
 class Node{
