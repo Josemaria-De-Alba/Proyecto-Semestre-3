@@ -36,3 +36,10 @@ Función de imprimir: 0(n) Imprime todos los valores dentro del vector, hace est
 Función de encontrar: 0(n) Busca un valor dado por el usuario yendo uno por uno hasta encontrarlo o llegar al final del vector.
 
 Función de eliminar: 0(n) Busca un valor dado por el usuario yendo uno por uno hasta encontrarlo para poder eliminarlo o llegar al final.
+
+**Correcciones**
+Agregar nueva clase que contiene un vector que se puede organizar utilizando merge sort. Este vector está organizado en orden alfabético.
+
+Corregir análisis de complejidad y agregar análisis para nueva clase y funciones.
+
+Corregir la lectura de archivo de texto(acabó siendo que si funcionaba solo me faltaba ponerle un cout antes de la función).
