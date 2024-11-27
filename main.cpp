@@ -26,6 +26,12 @@ void description(){
   cout << "and the name used to find what it is connected to." << endl;
   cout << "This could be used for games such as Overwatch 2, Apex Legends, ";
   cout << "Destiny 2, Call of Duty, etc" << endl << endl;
+  cout << "You will be given 2 ways to store and organize data: ";
+  cout << "a vector and a AVL tree." << endl;
+  cout << "I recomend using a vector to organize data alphabetically ";
+  cout << "and using the tree to sort by percent and be able to get a short";
+  cout << " recomendation of what needs a buff or  a nerf" << endl;
+  cout << "VERY IMPORTANT! YOU CAN ONLY SAVE DATA TO GO WITH AVL TREES" << endl;
 }
 
 AVL<float> example(){
@@ -36,12 +42,11 @@ AVL<float> example(){
   string name;
   if(legends.is_open()){
     while(getline(legends,line)){
-      percent = stof(line.substr(1, 1));
-      name = line.substr(7, 1);
+      percent = stof(line.substr(0, 4));
+      name = line.substr(5, 4);
       leg.add(percent, name);
-      //Still Testing
-      leg.inorder();
     }
+    cout << leg.inorder();
     legends.close();
   }
   return leg;
@@ -52,14 +57,20 @@ int main(){
   AVL<float> legends;
   int done = 0;
 
+
+  Sort<character_info> sort(40, "Carry");
+  sort.remove(40);
+  
+  
   int run = 0;
   cout << "Welcome to the character use/win rate maker!" << endl;
   cout << "What would you like to do today?" << endl;
-  while(run != 4){
+  while(run != 5){
     cout << "Type 1 for a quick explination of what you can do" << endl;
-    cout << "Type 2 to start organizing data" << endl;
-    cout << "Type 3 to print information" << endl;
-    cout << "Type 4 to end the program" << endl;
+    cout << "Type 2 to organize data in an AVL Tree" << endl;
+    cout << "Type 3 to organize data in a vector" << endl;
+    cout << "Type 4 to print information" << endl;
+    cout << "Type 5 to end the program" << endl;
     cin >> run;
     if(run == 1){
       description();
@@ -108,11 +119,11 @@ int main(){
             cout << "Under Construction" << endl;
             cout << "Reading File" << endl;
             done = 1;
-            legends.inorder();
+            cout << legends.inorder();
           }
           else{
             cout << "Use inorder to read file" << endl;
-            legends.inorder();
+            cout << legends.inorder();
           }
           
         }
@@ -123,12 +134,12 @@ int main(){
         else if (building == 6){
           cout << data.inorder() << endl;
         }
-        else if(0 > building or 7 < building){
+        else if(0 >= building or 7 <= building){
           cout << "Wrong Number. Try Again." << endl;
         }
       }
     }
-    if(run == 3){
+    if(run == 4){
       cout << "Here is all the data!" << endl;
       cout << data.inorder() << endl;
     
@@ -137,6 +148,52 @@ int main(){
       data.smallest();
       cout << "This character/weapon might need a nerf: " << endl;
       data.biggest();
+    }
+    if(run == 3){
+      cout << "Here are the instructions to start organizing data" << endl;
+      int vectorbuild = 0;
+      while(vectorbuild != 5){
+        cout << "Type 1 to add a values" << endl;
+        cout << "Type 2 to remove a value" << endl;
+        cout << "Type 3 to print information" << endl;
+        cout << "Type 4 to find where a percent is located" << endl;
+        cout << "Type 5 to return to the main menu" << endl;
+        cin >> vectorbuild;
+        if(vectorbuild == 1){
+          string na;
+          float per;
+          cout << "Please give us the character/item name: " << endl;
+          cin >> na;
+          cout << "Please give us the win/use rate: " << endl;
+          cin >> per;
+          sort.add(per,na);
+          
+        }
+        else if(vectorbuild == 2){
+          float re;
+          cout << "Please give us the win/use rate: " << endl;
+          cin >> re;
+          sort.remove(re);
+          
+        }
+        else if(vectorbuild == 3){
+          sort.MergeSort();
+          sort.printArray();
+        }
+        else if(vectorbuild == 4){
+          float fi;
+          cout << "What percent do you want to find?" << endl;
+          cin >> fi;
+          sort.MergeSort();
+          sort.find(fi);
+        }
+        else if(vectorbuild <= 0 or vectorbuild >= 6){
+          cout << "Wrong number, try again." << endl;
+        }
+      }
+    }
+    if(run <= 0 or run >= 6){
+      cout << "Wrong Number. Try Again." << endl;
     }
   }
   cout << "Thank you for using my program!" << endl;
